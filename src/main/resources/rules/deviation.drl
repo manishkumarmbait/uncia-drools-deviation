@@ -1,0 +1,30 @@
+import com.uncia.unciadroolsdeviation.model.Participant;
+//import com.uncia.unciadroolsdeviation.model.Deviation;
+global com.uncia.unciadroolsdeviation.model.Rate rate;
+
+dialect "mvel"
+
+rule "Checking Age"
+ when 
+  Participant($age : age != 0, age < 21)
+  //$rate : Rate()
+ then
+  rate.addDeviation("L3", "Age Norms Not meet", "age", Integer.toString($age),"ACM")
+end
+
+rule "Checking Annual Salary Against Loan Amount"
+ when 
+  Participant($loanAmount : loanAmount != 0, loanAmount >2000000, annualSalary < 50000)
+ //$rate : Rate()
+ then
+  rate.addDeviation("L6", "Loan Amount norms not met with Total Income (25,00,000)", "Loanamount", Long.toString($loanAmount), "NCM")
+end
+
+rule "Checking creditScore"
+ when 
+  Participant($creditScore : creditScore != 0, creditScore < 600)
+ //$rate : Rate()
+ then      
+  rate.addDeviation("L3", "Cibil Norms not met", "cibil", Integer.toString($creditScore), "Sr.ACM")
+end
+
